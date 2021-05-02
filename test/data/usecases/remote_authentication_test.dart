@@ -1,24 +1,10 @@
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import '../../mock/http_client_mock.mocks.dart';
+import 'package:survey_flutter_clean_arch/data/usecases/usecases.dart';
 import 'package:survey_flutter_clean_arch/domain/usecases/usecases.dart';
 
-class RemoteAuthentication {
-  final HttpClient httpClient;
-  final String url;
-
-  RemoteAuthentication({required this.httpClient, required this.url});
-
-  Future<void> auth(AuthenticationParams params) async {
-    final body = {'email': params.email, 'password': params.password};
-    await httpClient.request(url: url, method: 'post', body: body);
-  }
-}
-
-abstract class HttpClient {
-  Future<void> request({required String url, required String method, Map body});
-}
+import '../../mock/http_client_mock.mocks.dart';
 
 void main() {
   late RemoteAuthentication sut;

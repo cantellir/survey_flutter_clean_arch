@@ -1,6 +1,5 @@
 import 'package:mockito/annotations.dart';
-
-import '../data/usecases/remote_authentication_test.dart';
+import 'package:survey_flutter_clean_arch/data/http/http.dart';
 
 @GenerateMocks([HttpClient])
 main() {}
