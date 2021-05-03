@@ -12,17 +12,16 @@ void main() {
   late RemoteAuthentication sut;
   late MockHttpClient httpClient;
   late String url;
+  late AuthenticationParams params;
 
   setUp(() {
     httpClient = MockHttpClient();
     url = 'http://url.test';
     sut = RemoteAuthentication(httpClient: httpClient, url: url);
+    params = AuthenticationParams(email: 'test@test.com', password: '123456');
   });
 
   test('Should call HttpClient witch correct values', () async {
-    final params =
-        AuthenticationParams(email: 'test@test.com', password: '123456');
-
     await sut.auth(params);
 
     verify(httpClient.request(
@@ -37,9 +36,6 @@ void main() {
             method: anyNamed('method'),
             body: anyNamed('body')))
         .thenThrow(HttpError.badRequest);
-
-    final params =
-        AuthenticationParams(email: 'test@test.com', password: '123456');
 
     final future = sut.auth(params);
 
