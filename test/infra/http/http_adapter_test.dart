@@ -20,11 +20,18 @@ class HttpAdapter {
 }
 
 void main() {
+  late HttpAdapter sut;
+  late MockClient client;
+  late String url;
+
+  setUp(() {
+    client = MockClient();
+    sut = HttpAdapter(client);
+    url = 'http://test.com';
+  });
+
   group('post', () {
     test('should call post with correct values', () async {
-      final client = MockClient();
-      final sut = HttpAdapter(client);
-      final url = 'http://test.com';
       when(client.post(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response('mockedResponse', 200));
 
