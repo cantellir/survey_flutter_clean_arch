@@ -15,7 +15,12 @@ class HttpAdapter {
       'content-type': 'application/json',
       'accept': 'application/json'
     };
-    await client.post(Uri.parse(url), headers: headers, body: jsonEncode(body));
+    final jsonBody = body != null ? jsonEncode(body) : null;
+    await client.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonBody,
+    );
   }
 
   HttpAdapter(this.client);
@@ -34,12 +39,17 @@ void main() {
 
   group('post', () {
     test('should call post with correct values', () async {
-      when(client.post(any,
-              headers: anyNamed('headers'), body: anyNamed('body')))
-          .thenAnswer((_) async => http.Response('mockedResponse', 200));
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response('mockedResponse', 200));
 
-      await sut
-          .request(url: url, method: 'post', body: {'any_key': 'any_value'});
+      await sut.request(
+        url: url,
+        method: 'post',
+        body: {'any_key': 'any_value'},
+      );
 
       verify(client.post(Uri.parse(url),
           headers: {
@@ -47,6 +57,23 @@ void main() {
             'accept': 'application/json'
           },
           body: jsonEncode({'any_key': 'any_value'})));
+    });
+
+    test('should call post without body', () async {
+      when(client.post(
+        any,
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async => http.Response('mockedResponse', 200));
+
+      await sut.request(
+        url: url,
+        method: 'post',
+      );
+
+      verify(client.post(
+        any,
+        headers: anyNamed('headers'),
+      ));
     });
   });
 }
