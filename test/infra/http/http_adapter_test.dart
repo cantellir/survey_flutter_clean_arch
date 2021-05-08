@@ -9,7 +9,11 @@ class HttpAdapter {
   final Client client;
 
   Future<void> request({required url, required method}) async {
-    await client.post(Uri.parse(url));
+    final headers = {
+      'content-type': 'application/json',
+      'accept': 'application/json'
+    };
+    await client.post(Uri.parse(url), headers: headers);
   }
 
   HttpAdapter(this.client);
@@ -21,12 +25,15 @@ void main() {
       final client = MockClient();
       final sut = HttpAdapter(client);
       final url = 'http://test.com';
-      when(client.post(any))
+      when(client.post(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response('mockedResponse', 200));
 
       await sut.request(url: url, method: 'post');
 
-      verify(client.post(Uri.parse(url)));
+      verify(client.post(Uri.parse(url), headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json'
+      }));
     });
   });
 }
