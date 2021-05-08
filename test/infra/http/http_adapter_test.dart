@@ -19,6 +19,14 @@ void main() {
     url = 'http://test.com';
   });
 
+  group('shared', () {
+    test('should call post with correct values', () async {
+      final future = sut.request(url: url, method: 'invalid_method');
+
+      expect(future, throwsA(HttpError.serverError));
+    });
+  });
+
   group('post', () {
     PostExpectation mockRequest() => when(
         client.post(any, headers: anyNamed('headers'), body: anyNamed('body')));
