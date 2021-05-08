@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
+import 'package:survey_flutter_clean_arch/data/http/http.dart';
+
 class HttpAdapter {
   final Client client;
 
@@ -20,7 +22,12 @@ class HttpAdapter {
     if (response.statusCode == 200) {
       return response.body.isEmpty ? null : jsonDecode(response.body);
     }
-    return null;
+
+    if (response.statusCode == 204) {
+      return null;
+    }
+
+    throw (HttpError.badRequest);
   }
 
   HttpAdapter(this.client);
