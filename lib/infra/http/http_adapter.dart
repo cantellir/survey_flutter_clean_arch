@@ -39,6 +39,10 @@ class HttpAdapter {
       throw HttpError.forbidden;
     }
 
+    if (response.statusCode == 404) {
+      throw HttpError.notFound;
+    }
+
     throw (HttpError.serverError);
   }
 
