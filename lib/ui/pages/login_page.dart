@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+import 'package:survey_flutter_clean_arch/ui/components/headline1.dart';
+
+import '../components/login_header.dart';
+
+class LoginPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            LoginHeader(),
+            Headline1(text: 'Login'),
+            Padding(
+              padding: const EdgeInsets.all(32),
+              child: Form(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                          labelText: 'Email',
+                          icon: Icon(Icons.email,
+                              color: Theme.of(context).primaryColor)),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0, bottom: 32),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                            labelText: 'Senha',
+                            icon: Icon(Icons.lock,
+                                color: Theme.of(context).primaryColor)),
+                        obscureText: true,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Entrar'.toUpperCase()),
+                    ),
+                    TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.person),
+                        label: Text('Criar Conta'))
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
