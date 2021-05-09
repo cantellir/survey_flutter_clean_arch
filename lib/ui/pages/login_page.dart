@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:survey_flutter_clean_arch/ui/components/headline1.dart';
 
+import '../components/headline1.dart';
 import '../components/login_header.dart';
 
 class LoginPage extends StatelessWidget {
