@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:survey_flutter_clean_arch/ui/pages/login_page.dart';
+import 'package:mockito/mockito.dart';
+import 'package:survey_flutter_clean_arch/ui/pages/login/login_page.dart';
+
+import '../../mock/login_presenter_mock.mocks.dart';
 
 void main() {
+  late MockLoginPresenter presenter;
+
   Future<void> loadPage(WidgetTester tester) async {
-    final loginPage = MaterialApp(home: LoginPage());
+    presenter = MockLoginPresenter();
+    final loginPage = MaterialApp(home: LoginPage(presenter));
     await tester.pumpWidget(loginPage);
   }
 
@@ -24,5 +30,18 @@ void main() {
 
     final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
     expect(button.onPressed, null);
+  });
+
+  testWidgets('should call validate with correct values',
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    final email = 'test@test.com';
+    await tester.enterText(find.bySemanticsLabel('Email'), email);
+    verify(presenter.validateEmail(email));
+
+    final password = 'abcdefghi';
+    await tester.enterText(find.bySemanticsLabel('Senha'), password);
+    verify(presenter.validatePassword(password));
   });
 }
