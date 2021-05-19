@@ -18,11 +18,17 @@ class StreamLoginPresenter {
 }
 
 main() {
-  test('should call validation with correct email', () {
-    final validation = MockValidation();
-    final sut = StreamLoginPresenter(validation: validation);
-    final email = 'test@test.com';
+  late StreamLoginPresenter sut;
+  late MockValidation validation;
+  late String email;
 
+  setUp(() {
+    validation = MockValidation();
+    sut = StreamLoginPresenter(validation: validation);
+    email = 'test@test.com';
+  });
+
+  test('should call validation with correct email', () {
     when(validation.validate(field: 'email', value: email)).thenReturn('');
 
     sut.validateEmail(email);
